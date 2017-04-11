@@ -8,8 +8,8 @@ None for the moment.
 
 Goals
 --
-- [] Using CMAke as build tool.
-- [x] Using CLion as IDE.
+- [ ] Using CMAke as build tool.
+- [ ] Using CLion as IDE.
 - [ ] Using clang as compiler.
 - [ ] Implementing and using a circlebuffer.
 - [ ] IPC using shared-memory.
