@@ -1,0 +1,41 @@
+#!/bin/bash
+name=`echo $BASH_SOURCE | rev | cut -d"/" -f1 | rev`
+
+pathToScriptFolder=`find -name "$name" | grep -v "\.git"`
+# echo "[DEBUG] pathToScriptFolder: $pathToScriptFolder";
+pathToScriptFolder=${pathToScriptFolder:2} # Remove the first two characters
+pathToScriptFolder=${pathToScriptFolder%/*} # Remove everything after the last /
+# echo "[DEBUG] pathToScriptFolder: $pathToScriptFolder";
+
+echo "Starting git-hook $name.";
+
+function onScriptFail {
+	echo "Aborting $name."
+	exit $scriptFailed;
+}
+
+scriptFailed=1;
+for script in `ls $pathToScriptFolder | grep -v ${0##*/}`; do
+	pathToScript="$pathToScriptFolder/$script";
+	# echo "[DEBUG] pathToScript: $pathToScript";
+	echo "Found script: $pathToScript"
+
+	if test -x $pathToScript; then
+		echo "Executing script: $pathToScript"
+		bash $pathToScript;
+	else
+		echo "Error: $pathToScript is not executable."
+		scriptFailed=1;
+		onScriptFail;
+	fi
+
+	scriptFailed=$?;
+	if [ $scriptFailed -ne 0 ] ; then
+		echo "Error encountered while executing: $pathToScript"
+		onScriptFail;
+	fi
+done
+
+echo "$name has finished.";
+echo "";
+exit 0;
