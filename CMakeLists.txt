@@ -25,5 +25,6 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
 set(TEST_SUFFIX _test)
 
 # Get subfolders
-add_subdirectory(pathfinding)
-add_subdirectory(pathfinding_test)
+add_subdirectory(yazol)
+add_subdirectory(yazol_impl)
+add_subdirectory(yazol_test)
