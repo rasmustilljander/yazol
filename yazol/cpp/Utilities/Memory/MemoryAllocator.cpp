@@ -16,7 +16,7 @@ namespace Yazol
             MemoryAllocator::~MemoryAllocator() { std::free(m_memoryStartRaw); }
 
 
-            void MemoryAllocator::Initialize(const size_t& p_memorySize, const uint8_t& p_alignment)
+            void MemoryAllocator::Initialize(const std::size_t& p_memorySize, const std::uint8_t& p_alignment)
             {
                 m_alignment = p_alignment;
                 m_totalMemory = p_memorySize + m_alignment;
@@ -34,7 +34,7 @@ namespace Yazol
                 m_memoryStartRaw = std::malloc(m_totalMemory);
 
                 // Adress to end of memory chunk
-                m_memoryEndRaw = reinterpret_cast<void*>(reinterpret_cast<size_t>(m_memoryStartRaw) + m_totalMemory);
+                m_memoryEndRaw = reinterpret_cast<void*>(reinterpret_cast<std::size_t>(m_memoryStartRaw) + m_totalMemory);
 
                 // Set entire chunk to zero
                 memset(m_memoryStartRaw, 0, m_totalMemory); // TODORT could be removed in the future
@@ -43,10 +43,10 @@ namespace Yazol
                 m_adjustment = ComputeAdjustment(m_memoryStartRaw, m_alignment);
 
                 // Get the aligned pointer to the memory chunk
-                m_memoryStartAligned = reinterpret_cast<void*>(reinterpret_cast<size_t>(m_memoryStartRaw) + m_adjustment);
+                m_memoryStartAligned = reinterpret_cast<void*>(reinterpret_cast<std::size_t>(m_memoryStartRaw) + m_adjustment);
             }
 
-            uint8_t MemoryAllocator::ComputeAdjustment(void* p_adress, const uint8_t& p_alignment)
+            std::uint8_t MemoryAllocator::ComputeAdjustment(void* p_adress, const std::uint8_t& p_alignment)
             {
                 // p_alignment must be contained in the set of 2^x
                 if(p_alignment % 2 == 0 && p_alignment > 1)
@@ -58,9 +58,9 @@ namespace Yazol
                     // & 0000 1111
                     // Which gives a misalignment between 0 and 2^x - 1
                     // Thus adjustment can never be less than 1.
-                    const uint8_t mask = p_alignment - 1;
-                    const uint8_t misalignment = (reinterpret_cast<size_t>(p_adress) & mask);
-                    const uint8_t adjustment = p_alignment - misalignment;
+                    const std::uint8_t mask = p_alignment - 1;
+                    const std::uint8_t misalignment = (reinterpret_cast<std::size_t>(p_adress) & mask);
+                    const std::uint8_t adjustment = p_alignment - misalignment;
 
                     return adjustment;
                 }

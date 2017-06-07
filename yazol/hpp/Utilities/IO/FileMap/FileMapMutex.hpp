@@ -30,7 +30,7 @@ namespace Yazol
                 /**
                 TODO docs
                 */
-                bool try_lock(const uint32_t& p_timeout) override;
+                bool try_lock(const std::uint32_t& p_timeout) override;
 
                 /**
                     Will only return if locked.

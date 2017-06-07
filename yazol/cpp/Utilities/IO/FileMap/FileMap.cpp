@@ -1,7 +1,9 @@
 #include <Utilities/IO/FileMap/FileMap.hpp>
 #include <Utilities/String/StringHelper.hpp>
 
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
 #include <Windows.h>
+
 
 namespace Yazol
 {
@@ -64,3 +66,4 @@ namespace Yazol
         }
     }
 }
+#endif

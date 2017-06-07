@@ -75,12 +75,12 @@ namespace Yazol
                 /**
                 The global alignment for this specific allocator, only used to allocate the entire chunk.
                 */
-                uint8_t m_alignment;
+                std::uint8_t m_alignment;
 
                 /**
                 The global adjustment for this specific allocator, only used to allocate the entire chunk.
                 */
-                uint8_t m_adjustment;
+                std::uint8_t m_adjustment;
             };
         }
     }

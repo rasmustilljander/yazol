@@ -1,21 +1,25 @@
-#include <SubmoduleManagerImpl.hpp>
-#include <Logger/LoggerImpl.hpp>
-#include <Console/ConsoleManagerImpl.hpp>
-#include <LoggingModuleImplementation.hpp>
-#include <Logger/LoggerImpl.hpp>
+#include <YazolContext.hpp>
 
 namespace Yazol
 {
-    YazolContext::YazolContext()
+    YazolContextImplementation::YazolContextImplementation()
     {
     }
 
-    YazolContext::~YazolContext()
+    YazolContextImplementation::~YazolContextImplementation()
     {
     }
 
-    Logger& YazolContext::CreateLogger()
+    Logger* YazolContextImplementation::CreateLogger()
     {
         return nullptr;
     }
 }
+
+/*
+Yazol::YazolContext* CreateAYazolContext()
+{
+    Yazol::YazolContext* context = new Yazol::YazolContext();
+    return context;
+}
+*/

@@ -1,9 +1,11 @@
 #include <Utilities/IO/FileMap/FileMapMutex.hpp>
 
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
 #include <Windows.h>
+
 #include <Utilities/String/StringHelper.hpp>
 
-namespace Yazo
+namespace Yazol
 {
     namespace Utilities
     {
@@ -16,6 +18,7 @@ namespace Yazo
 
             FileMapMutex::~FileMapMutex()
             {
+                
                 ReleaseMutex(m_handle);
                 CloseHandle(m_handle);
             }
@@ -102,3 +105,5 @@ namespace Yazo
         }
     }
 }
+
+#endif

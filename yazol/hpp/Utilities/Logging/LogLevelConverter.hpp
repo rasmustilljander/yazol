@@ -5,7 +5,7 @@
 #include <exception>
 #include <map>
 
-namespace Doremi
+namespace Yazol
 {
     namespace Utilities
     {

@@ -12,7 +12,7 @@ namespace Yazol
     {
         namespace String
         {
-            void toString(string& dst, const char* format, va_list ap) throw()
+            void toString(std::string& dst, const char* format, va_list ap) throw()
             {
                 int length;
                 va_list apStrLen;
@@ -31,7 +31,7 @@ namespace Yazol
                 }
             }
 
-            void toString(string& dst, const char* format, ...) throw()
+            void toString(std::string& dst, const char* format, ...) throw()
             {
                 va_list ap;
                 va_start(ap, format);

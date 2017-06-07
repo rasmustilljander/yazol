@@ -6,6 +6,7 @@
 #include <Utilities/Logging/LogTagConverter.hpp>
 #include <Utilities/Logging/HelpFunctions.hpp>
 #include <Utilities/IO/FileMap/FileMap.hpp>
+#include <Utilities/Memory/Circlebuffer/ArbitrarySizeCirclebuffer.hpp>
 
 #include <Utilities/String/VA_ListToString.hpp>
 #include <Utilities/String/StringHelper.hpp>
@@ -14,7 +15,13 @@
 #include <iostream>
 #include <algorithm>
 #include <chrono>
+
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
 #include <Windows.h>
+#else
+// TODO Nothing atm 
+#endif
+
 
 namespace Yazol
 {
@@ -38,7 +45,7 @@ namespace Yazol
     using namespace Yazol::Utilities;
     using namespace Yazol::Utilities::Logging;
 
-    void ThreadWork(ThreadMetaData* p_threadMetaData, Memory::ArbitrarySizeCirclebuffer* p_localBuffer, Memory::ArbitrarySizeCirclebuffer* m_outGoingBuffer);
+    void ThreadWork(ThreadMetaData* p_threadMetaData, Yazol::Utilities::Memory::ArbitrarySizeCirclebuffer* p_localBuffer, Yazol::Utilities::Memory::ArbitrarySizeCirclebuffer* m_outGoingBuffer);
 
     Logger::Logger()
         : m_localBuffer(nullptr), m_outGoingBuffer(nullptr), m_fileMap(nullptr), m_mutex(nullptr), m_applicationRunning(nullptr), m_threadMetaData(nullptr)
