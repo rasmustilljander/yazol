@@ -31,3 +31,6 @@
 # Idea CLion
 .idea/**
 cmake-build-debug/**
+
+# Custom buildscript using CMAke
+build/**
