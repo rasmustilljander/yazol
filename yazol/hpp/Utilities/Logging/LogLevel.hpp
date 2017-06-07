@@ -8,7 +8,7 @@ namespace Yazol
     {
         namespace Logging
         {
-            enum class LogLevel : uint8_t
+            enum class LogLevel : std::uint8_t
             {
                 FATAL_ERROR, // Error in which the game is not expected to return from.
                 NON_FATAL_ERROR, // Error which the game can return from

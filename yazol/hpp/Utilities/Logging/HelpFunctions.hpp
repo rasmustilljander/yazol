@@ -1,6 +1,6 @@
 #pragma once
 #include <cstdint>
-#include <yazol/hpp/Include/Constants/LoggerConstants.hpp> // TODORT can move to cpp
+#include <yazol/hpp/Utilities/Constants/LoggerConstants.hpp> // TODORT can move to cpp
 #include <yazol/hpp/Utilities/String/StringHelper.hpp> // TODORT can move to cpp
 #include <string> // TODORT can move to cpp
 

@@ -1,9 +1,9 @@
-#pragma once
 #include <Utilities/Memory/Circlebuffer/ArbitrarySizeCirclebuffer.hpp>
 #include <Utilities/Memory/Circlebuffer/CircleBufferHeader.hpp>
 #include <Utilities/Memory/Circlebuffer/ArbitraryStaticData.hpp>
 #include <string>
 #include <iostream>
+#include <cstring>
 
 namespace Yazol
 {

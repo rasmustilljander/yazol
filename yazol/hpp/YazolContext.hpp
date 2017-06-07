@@ -11,19 +11,20 @@ namespace Yazol
     class YazolContext
     {
     public:
+
+        /**
+        TODORT remove this and add ReleaseYazolContext, maybe.
+        */
+        virtual ~YazolContext() {}
+
         /**
         TODORT
         */
-        virtual SubmoduleManager& GetSubModuleManager() const = 0;
-
-        /**
-        TODORT remove this and add ReleaseYazolContext, maybe
-        */
-        virtual ~YazolContext() {}
+        virtual Logger& CreateLogger() = 0;
     };
 }
 
 extern "C" {
-    typedef Yazol::LoggingModule* (*CreateAYazolContext)();
-    YAZOL_DLL_EXPORT Yazol::LoggingModule* CreateAYazolContext();
+    typedef Yazol::YazolContext* (*CreateAYazolContext)();
+    YAZOL_DLL_EXPORT Yazol::YazolContext* CreateAYazolContext();
 }

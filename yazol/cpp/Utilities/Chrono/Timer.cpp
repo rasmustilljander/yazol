@@ -1,6 +1,6 @@
-#include <Chrono/Timer.hpp>
+#include <Utilities/Chrono/Timer.hpp>
 
-namespace Yazo
+namespace Yazol
 {
     namespace Utilities
     {

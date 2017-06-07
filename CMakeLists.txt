@@ -19,12 +19,11 @@ include_directories(${REPOSITORY_ROOT})
 
 # Set compiler option
 set(CMAKE_CXX_FLAGS "-g -Wall")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++14")
 
 # Set test module naming prefix
 set(TEST_SUFFIX _test)
 
 # Get subfolders
 add_subdirectory(yazol)
-add_subdirectory(yazol_impl)
 add_subdirectory(yazol_test)

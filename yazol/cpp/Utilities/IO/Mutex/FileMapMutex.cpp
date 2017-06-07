@@ -1,7 +1,7 @@
-#include <IO/FileMap/FileMapMutex.hpp>
+#include <Utilities/IO/FileMap/FileMapMutex.hpp>
 
 #include <Windows.h>
-#include <Utility/String/StringHelper.hpp>
+#include <Utilities/String/StringHelper.hpp>
 
 namespace Yazo
 {

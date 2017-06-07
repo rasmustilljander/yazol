@@ -1,9 +1,9 @@
-#include <IO/FileMap/FileMap.hpp>
-#include <Utility/String/StringHelper.hpp>
+#include <Utilities/IO/FileMap/FileMap.hpp>
+#include <Utilities/String/StringHelper.hpp>
 
 #include <Windows.h>
 
-namespace Yazo
+namespace Yazol
 {
     namespace Utilities
     {

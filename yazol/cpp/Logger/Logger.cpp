@@ -1,15 +1,15 @@
-#include <Internal/Logger/LoggerImpl.hpp>
-#include <Utility/Utilities/Include/Logging/LogLevel.hpp>
-#include <Utility/Utilities/Include/Logging/LogTag.hpp>
-#include <Utility/Utilities/Include/Logging/LogTextData.hpp>
-#include <Utility/Utilities/Include/Logging/LogLevelConverter.hpp>
-#include <Utility/Utilities/Include/Logging/LogTagConverter.hpp>
-#include <Utility/Utilities/Include/Logging/HelpFunctions.hpp>
-#include <Utility/Utilities/Include/IO/FileMap/FileMap.hpp>
+#include <Logger/Logger.hpp>
+#include <Utilities/Logging/LogLevel.hpp>
+#include <Utilities/Logging/LogTag.hpp>
+#include <Utilities/Logging/LogTextData.hpp>
+#include <Utilities/Logging/LogLevelConverter.hpp>
+#include <Utilities/Logging/LogTagConverter.hpp>
+#include <Utilities/Logging/HelpFunctions.hpp>
+#include <Utilities/IO/FileMap/FileMap.hpp>
 
-#include <Utility/Utilities/Include/String/VA_ListToString.hpp>
-#include <Utility/Utilities/Include/String/StringHelper.hpp>
-#include <Utility/Utilities/Include/PointerArithmetic/PointerArithmetic.hpp>
+#include <Utilities/String/VA_ListToString.hpp>
+#include <Utilities/String/StringHelper.hpp>
+#include <Utilities/PointerArithmetic/PointerArithmetic.hpp>
 
 #include <iostream>
 #include <algorithm>
@@ -40,7 +40,7 @@ namespace Yazol
 
     void ThreadWork(ThreadMetaData* p_threadMetaData, Memory::ArbitrarySizeCirclebuffer* p_localBuffer, Memory::ArbitrarySizeCirclebuffer* m_outGoingBuffer);
 
-    LoggerImpl::LoggerImpl()
+    Logger::Logger()
         : m_localBuffer(nullptr), m_outGoingBuffer(nullptr), m_fileMap(nullptr), m_mutex(nullptr), m_applicationRunning(nullptr), m_threadMetaData(nullptr)
     {
 #ifdef NO_LOGGER
@@ -50,7 +50,7 @@ namespace Yazol
         Initialize();
     }
 
-    LoggerImpl::~LoggerImpl()
+    Logger::~Logger()
     {
 #ifdef NO_LOGGER
         return;
@@ -80,7 +80,7 @@ namespace Yazol
         delete m_applicationRunning;
     }
 
-    void LoggerImpl::Initialize()
+    void Logger::Initialize()
     {
 #ifdef NO_LOGGER
         return;
@@ -108,7 +108,7 @@ namespace Yazol
         StartLoggingProcess();
     }
 
-    void LoggerImpl::LogTextReal(const std::string& p_function, const uint16_t& p_line, const LogTag& p_logTag, const LogLevel& p_logLevel,
+    void Logger::LogTextReal(const std::string& p_function, const uint16_t& p_line, const LogTag& p_logTag, const LogLevel& p_logLevel,
                                  const char* p_format, ...)
     {
         using namespace Yazol::Utilities::Logging;
@@ -168,7 +168,7 @@ namespace Yazol
         free(buffer);
     }
 
-    void* LoggerImpl::InitializeFileMap(const std::size_t& p_size)
+    void* Logger::InitializeFileMap(const std::size_t& p_size)
     {
         m_fileMap = new IO::FileMap();
         void* memory = m_fileMap->Initialize(Logging::BuildFileMapName(m_uniqueId), p_size);
@@ -182,7 +182,7 @@ namespace Yazol
         }
     }
 
-    IO::Mutex* LoggerImpl::CreateFileMapMutex()
+    IO::Mutex* Logger::CreateFileMapMutex()
     {
         IO::Mutex* mutex = new IO::FileMapMutex();
         const bool success = mutex->Initialize(Logging::BuildFileMapMutexName(m_uniqueId));
@@ -197,14 +197,14 @@ namespace Yazol
         }
     }
 
-    std::wstring LoggerImpl::BuildLoggingProcessArgumentString()
+    std::wstring Logger::BuildLoggingProcessArgumentString()
     {
         const std::wstring applicationPathW = String::s2ws(Constants::LOGGING_PROCESS_NAME).c_str();
         const std::wstring arguments = std::wstring(applicationPathW + std::wstring(L" ") + std::to_wstring(m_uniqueId));
         return arguments;
     }
 
-    void LoggerImpl::StartLoggingProcess()
+    void Logger::StartLoggingProcess()
     {
         PROCESS_INFORMATION processInformation;
         STARTUPINFO startupInfo;

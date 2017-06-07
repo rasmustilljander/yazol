@@ -9,10 +9,10 @@ namespace Yazol
         {
             struct MemorySpecification
             {
-                size_t free;
-                size_t total;
-                size_t occupied;
-                MemorySpecification(const size_t& p_free, const size_t& p_total, const size_t& p_occupied)
+                std::size_t free;
+                std::size_t total;
+                std::size_t occupied;
+                MemorySpecification(const std::size_t& p_free, const std::size_t& p_total, const std::size_t& p_occupied)
                     : free(p_free), total(p_total), occupied(p_occupied)
                 {
                 }

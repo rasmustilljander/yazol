@@ -1,5 +1,6 @@
 #include <Utilities/Memory/MemoryAllocator.hpp>
 #include <memory>
+#include <cstring>
 
 namespace Yazol
 {

@@ -30,18 +30,18 @@ namespace Yazol
                 /**
                     Gets the some specifications about this memorystack.
                 */
-                Doremi::Utilities::Memory::MemorySpecification GetMemorySpecification();
+                Yazol::Utilities::Memory::MemorySpecification GetMemorySpecification();
 
 
             protected:
-                void Initialize(const size_t& p_memorySize, const uint8_t& p_alignment);
+                void Initialize(const std::size_t& p_memorySize, const std::uint8_t& p_alignment);
                 void AllocateFirstTime();
 
                 /**
                     Computes an adjustment for a given pointer and alignment.
                     The alignment must be non-zero and contained in the set of 2^x, the functions return zero otherwise.
                 */
-                static uint8_t ComputeAdjustment(void* p_adress, const uint8_t& p_alignment);
+                static uint8_t ComputeAdjustment(void* p_adress, const std::uint8_t& p_alignment);
                 bool AssertAdresstInside(void* p_adressToAssert) const;
 
                 void* GetAdressStartRaw() const { return m_memoryStartRaw; }
@@ -49,9 +49,8 @@ namespace Yazol
                 void* GetAdressStartAligned() const { return m_memoryStartAligned; }
 
                 // Variables
-                size_t m_occupiedMemory;
-                size_t m_totalMemory;
-
+                std::size_t m_occupiedMemory;
+                std::size_t m_totalMemory;
 
             private:
                 /**
