@@ -1,7 +1,7 @@
 #pragma once
 
-#include <yazol/hpp/Utilities/IO/FileMap/FileMapMutex.hpp>
 #include <cstdint>
+#include <string>
 
 namespace Yazol
 {
@@ -25,7 +25,7 @@ namespace Yazol
                 /**
                 Returns the adress of the filemap
                 */
-                void* Initialize(const std::string& p_name, const size_t& p_fileMapSize);
+                void* Initialize(const std::string& p_name, const std::size_t& p_fileMapSize);
 
             protected:
                 bool OpenFileMap();
@@ -35,7 +35,7 @@ namespace Yazol
             private:
                 void* m_mapHandle;
                 std::string m_name;
-                size_t m_fileMapSize;
+                std::size_t m_fileMapSize;
                 void* m_rawMemoryOfMappedFile;
             };
         }

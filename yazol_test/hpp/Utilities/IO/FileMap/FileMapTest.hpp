@@ -1,8 +1,8 @@
 #pragma once
 #include <gtest/gtest.h>
-#include <Utilities/IO/FileMap/FileMap.hpp>
+#include <yazol/hpp/Utilities/IO/FileMap/FileMap.hpp>
 
-using namespace Doremi::Utilities::IO;
+using namespace Yazol::Utilities::IO;
 
 class FileMapTest : public testing::Test
 {

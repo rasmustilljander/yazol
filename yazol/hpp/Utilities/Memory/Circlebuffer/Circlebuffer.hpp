@@ -51,7 +51,7 @@ namespace Yazol
                 The useable size of the buffer will be p_bufferSize - sizeof(StaticData).
                 Each object will allocate sizeof(T) + sizeof(CircleBufferHeader) each
                 */
-                void Initialize(const size_t& p_bufferSize, IO::Mutex* p_mutex = nullptr)
+                void Initialize(const std::size_t& p_bufferSize, IO::Mutex* p_mutex = nullptr)
                 {
                     AssertInitialize(p_bufferSize);
                     m_rawBufferSize = p_bufferSize;
@@ -63,7 +63,7 @@ namespace Yazol
                 The useable size of the buffer will be p_bufferSize - sizeof(StaticData)
                 Each object will allocate sizeof(T) + sizeof(CircleBufferHeader) each
                 */
-                void Initialize(void* const p_preAllocatedBuffer, const size_t& p_bufferSize, IO::Mutex* p_mutex = nullptr)
+                void Initialize(void* const p_preAllocatedBuffer, const std::size_t& p_bufferSize, IO::Mutex* p_mutex = nullptr)
                 {
                     AssertInitialize(p_bufferSize);
                     m_rawBufferSize = p_bufferSize;
@@ -191,7 +191,8 @@ namespace Yazol
                 }
 
             protected:
-                void CircleBuffer::AssertInitialize(const size_t& p_bufferSize)
+
+                void AssertInitialize(const std::size_t& p_bufferSize)
                 {
                     m_sizeOfOneObject = sizeof(T) + sizeof(CircleBufferHeader);
                     if(m_sizeOfOneObject > (p_bufferSize - sizeof(StaticData)))
@@ -209,7 +210,7 @@ namespace Yazol
                     }
                 }
 
-                void CircleBuffer::LockMetaData()
+                void LockMetaData()
                 {
                     if(m_mutex != nullptr)
                     {
@@ -217,7 +218,7 @@ namespace Yazol
                     }
                 }
 
-                void CircleBuffer::UnLockMetaData()
+                void UnLockMetaData()
                 {
                     if(m_mutex != nullptr)
                     {
@@ -225,7 +226,7 @@ namespace Yazol
                     }
                 }
 
-                void CircleBuffer::ComputeAdjustments()
+                void ComputeAdjustments()
                 {
                     m_adjustedBufferSize = m_rawBufferSize - sizeof(StaticData);
                     m_adjustedBufferSize = (m_adjustedBufferSize / m_sizeOfOneObject) * m_sizeOfOneObject;
@@ -234,9 +235,9 @@ namespace Yazol
                     m_adjustedBufferPointerEnd = PointerArithmetic::Addition(m_adjustedBufferPointerStart, m_adjustedBufferSize);
                 }
 
-                void CircleBuffer::ComputeMaxObjects() { m_maxContainedObjects = m_adjustedBufferSize / m_sizeOfOneObject; }
+                void ComputeMaxObjects() { m_maxContainedObjects = m_adjustedBufferSize / m_sizeOfOneObject; }
 
-                void CircleBuffer::SetupVariables()
+                void SetupVariables()
                 {
                     m_alreadyInitialized = true;
                     m_rawBufferPointerEnd = PointerArithmetic::Addition(m_rawBufferPointerStart, m_rawBufferSize);
@@ -262,15 +263,15 @@ namespace Yazol
                 void* m_rawBufferPointerEnd;
                 void* m_adjustedBufferPointerStart;
                 void* m_adjustedBufferPointerEnd;
-                size_t m_rawBufferSize;
-                size_t m_adjustedBufferSize;
+                std::size_t m_rawBufferSize;
+                std::size_t m_adjustedBufferSize;
                 bool m_internalMemoryManagement;
                 std::mutex m_produceLock;
                 std::mutex m_consumeLock;
                 bool m_alreadyInitialized;
-                size_t m_maxContainedObjects;
+                std::size_t m_maxContainedObjects;
                 IO::Mutex* m_mutex;
-                size_t m_sizeOfOneObject;
+                std::size_t m_sizeOfOneObject;
             };
         }
     }

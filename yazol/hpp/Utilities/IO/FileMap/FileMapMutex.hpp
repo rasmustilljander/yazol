@@ -1,7 +1,8 @@
 #pragma once
 
-#include <string>
 #include <yazol/hpp/Utilities/IO/Mutex/Mutex.hpp>
+
+#include <string>
 #include <cstdint>
 
 namespace Yazol

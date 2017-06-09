@@ -1,4 +1,5 @@
 #include <Utilities/IO/FileMap/FileMapTest.hpp>
+#include <string>
 
 TEST_F(FileMapTest, basicInit)
 {
@@ -7,10 +8,10 @@ TEST_F(FileMapTest, basicInit)
     ASSERT_NE(nullptr, pointer);
 }
 
+
 TEST_F(FileMapTest, basicMultipleInit)
 {
-    FileMap a;
-    void* first = a.Initialize("test", 1000000);
+    void* first = m_fileMap->Initialize("test", 1000000);
 
     FileMap b;
     void* second = b.Initialize("test", 1000000);
@@ -32,7 +33,7 @@ TEST_F(FileMapTest, basicMultipleWriteAndRead)
     ASSERT_NE(first, second);
 
     const std::string writeString = std::string("testing text");
-    memcpy_s(first, 28, writeString.c_str(), 28);
+    memcpy(first, writeString.c_str(), 28);
     ASSERT_EQ("testing text", writeString);
 
     const char* secondAsChar = static_cast<char*>(second);

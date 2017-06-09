@@ -4,8 +4,10 @@
 #include <Utilities/Logging/LogTextData.hpp>
 #include <Utilities/Logging/LogLevelConverter.hpp>
 #include <Utilities/Logging/LogTagConverter.hpp>
+#include <Utilities/Constants/LoggerConstants.hpp>
 #include <Utilities/Logging/HelpFunctions.hpp>
 #include <Utilities/IO/FileMap/FileMap.hpp>
+#include <Utilities/IO/FileMap/FileMapMutex.hpp>
 #include <Utilities/Memory/Circlebuffer/ArbitrarySizeCirclebuffer.hpp>
 
 #include <Utilities/String/VA_ListToString.hpp>
@@ -15,6 +17,8 @@
 #include <iostream>
 #include <algorithm>
 #include <chrono>
+#include <thread>
+#include <cstring>
 
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
 #include <Windows.h>
@@ -47,17 +51,18 @@ namespace Yazol
 
     void ThreadWork(ThreadMetaData* p_threadMetaData, Yazol::Utilities::Memory::ArbitrarySizeCirclebuffer* p_localBuffer, Yazol::Utilities::Memory::ArbitrarySizeCirclebuffer* m_outGoingBuffer);
 
-    Logger::Logger()
+    LoggerImplementation::LoggerImplementation()
         : m_localBuffer(nullptr), m_outGoingBuffer(nullptr), m_fileMap(nullptr), m_mutex(nullptr), m_applicationRunning(nullptr), m_threadMetaData(nullptr)
     {
 #ifdef NO_LOGGER
         return;
 #endif
-        m_uniqueId = GetCurrentProcessId();
+// TODO LINUX/WIN
+//         m_uniqueId = GetCurrentProcessId();
         Initialize();
     }
 
-    Logger::~Logger()
+    LoggerImplementation::~LoggerImplementation()
     {
 #ifdef NO_LOGGER
         return;
@@ -87,7 +92,7 @@ namespace Yazol
         delete m_applicationRunning;
     }
 
-    void Logger::Initialize()
+    void LoggerImplementation::Initialize()
     {
 #ifdef NO_LOGGER
         return;
@@ -115,7 +120,7 @@ namespace Yazol
         StartLoggingProcess();
     }
 
-    void Logger::LogTextReal(const std::string& p_function, const uint16_t& p_line, const LogTag& p_logTag, const LogLevel& p_logLevel,
+    void LoggerImplementation::LogTextReal(const std::string& p_function, const uint16_t& p_line, const LogTag& p_logTag, const LogLevel& p_logLevel,
                                  const char* p_format, ...)
     {
         using namespace Yazol::Utilities::Logging;
@@ -169,13 +174,13 @@ namespace Yazol
             succeed = m_localBuffer->Produce(header, buffer);
             if(!succeed)
             {
-                std::this_thread::sleep_for(Logging::Constants::LOGGING_PRODUCE_TIME_WAIT);
+                std::this_thread::sleep_for(Utilities::Constants::LOGGING_PRODUCE_TIME_WAIT);
             }
         }
         free(buffer);
     }
 
-    void* Logger::InitializeFileMap(const std::size_t& p_size)
+    void* LoggerImplementation::InitializeFileMap(const std::size_t& p_size)
     {
         m_fileMap = new IO::FileMap();
         void* memory = m_fileMap->Initialize(Logging::BuildFileMapName(m_uniqueId), p_size);
@@ -189,7 +194,7 @@ namespace Yazol
         }
     }
 
-    IO::Mutex* Logger::CreateFileMapMutex()
+    IO::Mutex* LoggerImplementation::CreateFileMapMutex()
     {
         IO::Mutex* mutex = new IO::FileMapMutex();
         const bool success = mutex->Initialize(Logging::BuildFileMapMutexName(m_uniqueId));
@@ -204,15 +209,19 @@ namespace Yazol
         }
     }
 
-    std::wstring Logger::BuildLoggingProcessArgumentString()
+// TODORT
+        /* TODORT Linux/Windows
+    std::wstring LoggerImplementation::BuildLoggingProcessArgumentString()
     {
         const std::wstring applicationPathW = String::s2ws(Constants::LOGGING_PROCESS_NAME).c_str();
         const std::wstring arguments = std::wstring(applicationPathW + std::wstring(L" ") + std::to_wstring(m_uniqueId));
         return arguments;
     }
+    */
 
-    void Logger::StartLoggingProcess()
+    void LoggerImplementation::StartLoggingProcess()
     {
+        /* TODORT Linux/Windows
         PROCESS_INFORMATION processInformation;
         STARTUPINFO startupInfo;
         ZeroMemory(&processInformation, sizeof(PROCESS_INFORMATION));
@@ -227,6 +236,7 @@ namespace Yazol
         }
         CloseHandle(processInformation.hProcess);
         CloseHandle(processInformation.hThread);
+        */
     }
 
     void ThreadWork(ThreadMetaData* p_threadMetaData, Memory::ArbitrarySizeCirclebuffer* p_localBuffer, Memory::ArbitrarySizeCirclebuffer* m_outGoingBuffer)
@@ -253,7 +263,7 @@ namespace Yazol
                         succeed = m_outGoingBuffer->Produce(*header, buffer);
                         if(!succeed)
                         {
-                            std::this_thread::sleep_for(Logging::Constants::LOGGING_PRODUCE_TIME_WAIT);
+                            std::this_thread::sleep_for(Utilities::Constants::LOGGING_PRODUCE_TIME_WAIT);
                         }
                     }
                 }
@@ -261,7 +271,7 @@ namespace Yazol
                 {
                     // TODORT
                     // TODOXX Might not be long enough, or might be longer than required.
-                    std::this_thread::sleep_for(Logging::Constants::LOGGING_PRODUCE_TIME_WAIT);
+                    std::this_thread::sleep_for(Utilities::Constants::LOGGING_PRODUCE_TIME_WAIT);
                 }
             }
 

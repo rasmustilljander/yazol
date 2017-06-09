@@ -1,6 +1,9 @@
 #pragma once
 #include <yazol/hpp/Utilities/Logging/LogTag.hpp>
 #include <yazol/hpp/Utilities/Logging/LogLevel.hpp>
+#include <yazol/hpp/Utilities/IO/Mutex/Mutex.hpp>
+#include <yazol/hpp/Utilities/IO/FileMap/FileMap.hpp>
+#include <yazol/hpp/Utilities/Memory/Circlebuffer/ArbitrarySizeCirclebuffer.hpp>
 #include <string>
 
 namespace Yazol
@@ -20,6 +23,47 @@ namespace Yazol
         virtual void LogTextReal(const std::string& p_function, const uint16_t& p_line, const Yazol::Utilities::Logging::LogTag& p_logTag,
                                  const Yazol::Utilities::Logging::LogLevel& p_logLevel, const char* p_format, ...) = 0;
     };
+
+        struct ThreadMetaData;
+
+        class LoggerImplementation : public Logger
+        {
+        public:
+            /**
+                Constructor
+            */
+            LoggerImplementation();
+
+            /**
+            TODORT docs
+            */
+            void Initialize();
+
+            /**
+           Destuctor
+            */
+            virtual ~LoggerImplementation();
+
+            /**
+            The actual method called when calling LogText.
+            */
+            void LogTextReal(const std::string& p_function, const uint16_t& p_line, const Utilities::Logging::LogTag& p_tag,
+                             const Utilities::Logging::LogLevel& p_vLevel, const char* p_format, ...) override;
+
+        private:
+            void* InitializeFileMap(const std::size_t& p_size);
+            std::wstring BuildLoggingProcessArgumentString();
+            void StartLoggingProcess();
+            Utilities::IO::Mutex* CreateFileMapMutex();
+
+            Utilities::Memory::ArbitrarySizeCirclebuffer* m_localBuffer;
+            Utilities::Memory::ArbitrarySizeCirclebuffer* m_outGoingBuffer;
+            Utilities::IO::FileMap* m_fileMap;
+            Utilities::IO::Mutex* m_mutex;
+            bool* m_applicationRunning;
+            ThreadMetaData* m_threadMetaData;
+            int m_uniqueId;
+        };
 }
 
 #ifndef LogText

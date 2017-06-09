@@ -1,6 +1,6 @@
 #pragma once
 #include <yazol/hpp/Utilities/Memory/MemoryAllocator.hpp>
-#include <exception>
+#include <stdexcept>
 #include <cstdint>
 
 namespace Yazol

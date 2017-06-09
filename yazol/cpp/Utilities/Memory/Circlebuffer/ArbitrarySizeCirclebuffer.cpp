@@ -37,7 +37,7 @@ namespace Yazol
                 }
             }
 
-            void ArbitrarySizeCirclebuffer::Initialize(const uint32_t& p_bufferSize, IO::Mutex* p_sharedMemoryMutex)
+            void ArbitrarySizeCirclebuffer::Initialize(const std::uint32_t& p_bufferSize, IO::Mutex* p_sharedMemoryMutex)
             {
                 AssertInitialize(p_bufferSize);
                 m_rawBufferSize = p_bufferSize;
@@ -46,7 +46,7 @@ namespace Yazol
                 SetupVariables();
             }
 
-            void ArbitrarySizeCirclebuffer::Initialize(void* const p_preAllocatedBuffer, const uint32_t& p_bufferSize, IO::Mutex* p_sharedMemoryMutex)
+            void ArbitrarySizeCirclebuffer::Initialize(void* const p_preAllocatedBuffer, const std::uint32_t& p_bufferSize, IO::Mutex* p_sharedMemoryMutex)
             {
                 AssertInitialize(p_bufferSize);
                 m_rawBufferSize = p_bufferSize;
@@ -63,15 +63,15 @@ namespace Yazol
 
                 // Fetch variables from shared memory
                 // These variables must be read at the same time :s
-                const size_t tailOffset = m_data->currentTailOffset;
-                const size_t headOffset = m_data->currentHeadOffset;
+                const std::size_t tailOffset = m_data->currentTailOffset;
+                const std::size_t headOffset = m_data->currentHeadOffset;
 
                 // Compute variables based on shared memory
                 void* tail = PointerArithmetic::Addition(m_adjustedBufferPointerStart, tailOffset); // Compute the location of the current tail
                 void* head = PointerArithmetic::Addition(m_adjustedBufferPointerStart, headOffset); // Compute the location of the head
-                const intmax_t diff = PointerArithmetic::Difference(tail, head); // Compute the difference between the two
+                const std::intmax_t diff = PointerArithmetic::Difference(tail, head); // Compute the difference between the two
 
-                intmax_t part1, part2 = 0;
+                std::intmax_t part1, part2 = 0;
                 // Compute currently available space
                 if(diff == 0)
                 {
@@ -92,10 +92,10 @@ namespace Yazol
                     //// Head is to the "left" of the tail, use the diff between current head and end
                     part1 = diff * -1;
                 }
-                uint32_t currentlyAvailableSpace = part1 + part2;
+                std::uint32_t currentlyAvailableSpace = part1 + part2;
 
                 // Check so that the data can fit within the buffer
-                const uint32_t requestedSize = sizeof(CircleBufferHeader) + p_Header.packageSize;
+                const std::uint32_t requestedSize = sizeof(CircleBufferHeader) + p_Header.packageSize;
                 if(currentlyAvailableSpace < requestedSize)
                 {
 #ifdef _DEBUG
@@ -107,7 +107,7 @@ namespace Yazol
                 bool metaHeaderInPart1, dataPackageInPart1;
 
                 // Check if the metaheader can be fitted in the end
-                if (sizeof(CircleBufferHeader) <= part1)
+                if (static_cast<std::intmax_t>(sizeof(CircleBufferHeader)) <= part1)
                 {
                     //// Atleast metaheader can be fitted in the first part
                     metaHeaderInPart1 = true;
@@ -219,8 +219,8 @@ namespace Yazol
                 const intmax_t diff = PointerArithmetic::Difference(tail, head); // Compute the difference between the two
 
                 // Compute currently occupied space
-                intmax_t part1 = 0;
-                intmax_t part2 = 0;
+                std::intmax_t part1 = 0;
+                std::intmax_t part2 = 0;
                 if(diff == 0)
                 {
                     //// Buffer is empty
@@ -322,14 +322,14 @@ namespace Yazol
                 return success;
             }
 
-            void ArbitrarySizeCirclebuffer::AssertInitialize(const uint32_t& p_bufferSize)
+            void ArbitrarySizeCirclebuffer::AssertInitialize(const std::uint32_t& p_bufferSize)
             {
                 if(m_alreadyInitialized)
                 {
                     throw std::runtime_error("Already initialized.");
                 }
 
-                const uint32_t minimumSize = sizeof(CircleBufferHeader) + sizeof(ArbitraryStaticData);
+                const std::uint32_t minimumSize = sizeof(CircleBufferHeader) + sizeof(ArbitraryStaticData);
                 if(p_bufferSize < minimumSize)
                 {
                     // TODORT better messages

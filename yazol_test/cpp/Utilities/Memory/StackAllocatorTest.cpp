@@ -1,4 +1,5 @@
 #include <Utilities/Memory/StackAllocatorTest.hpp>
+#include <stdexcept>
 
 TEST_F(StackAllocatorTest, basicInitialization)
 {
