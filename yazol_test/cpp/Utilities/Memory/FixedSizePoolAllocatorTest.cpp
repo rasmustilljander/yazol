@@ -1,5 +1,7 @@
 #include <Utilities/Memory/FixedSizePoolAllocatorTest.hpp>
 
+using namespace std;
+
 TEST_F(FixedSizePoolAllocatorTest, basicInitialization)
 {
     m_poolAllocator->Initialize(64, 0);
@@ -149,10 +151,9 @@ TEST_F(FixedSizePoolAllocatorTest, advancedFreeLogicOnLargeSet)
     TestStruct64* first = m_poolAllocator->Allocate();
     loopAllocate<TestStruct64>(m_poolAllocator, 781250 - 11); // Allocate about half
 
-    TestStruct64* midPointers[10];
     for(size_t i = 0; i < 10; ++i)
     {
-        midPointers[i] = m_poolAllocator->Allocate();
+        m_poolAllocator->Allocate();
     }
 
     loopAllocate<TestStruct64>(m_poolAllocator, 781250 - 10); // Allocate the resthalf

@@ -12,10 +12,11 @@ namespace Yazol
             template <typename T> class FixedSizePoolAllocator : public MemoryAllocator
             {
             public:
+                
                 /**
                     Constructpr
                 */
-                FixedSizePoolAllocator() : m_maxOjectCount(0), m_currentObjectCount(0), m_currentFree(nullptr), MemoryAllocator() {}
+                FixedSizePoolAllocator() : MemoryAllocator(), m_currentFree(nullptr), m_maxOjectCount(0), m_currentObjectCount(0) {}
 
                 /**
                 Start the pool and allocate it's own memory
@@ -115,9 +116,9 @@ namespace Yazol
                     }
                 }
 
-                size_t m_maxOjectCount; // Max amount of objects that can be contained within the pool
-                size_t m_currentObjectCount; // The current number of objects in the pool
                 void* m_currentFree; // Pointer to current free memory
+                std::size_t m_maxOjectCount; // Max amount of objects that can be contained within the pool
+                std::size_t m_currentObjectCount; // The current number of objects in the pool
             };
         }
     }
