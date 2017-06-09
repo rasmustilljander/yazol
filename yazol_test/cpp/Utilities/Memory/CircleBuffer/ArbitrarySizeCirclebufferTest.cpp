@@ -62,7 +62,7 @@ TEST_F(ArbitrarySizeCirclebufferTest, basicProduceAndConsume)
 
     CircleBufferHeader* returnHeader = new CircleBufferHeader();
     TestStruct64* returnData = new TestStruct64();
-    m_circleBuffer->Consume(returnHeader, returnData, sizeof(TestStruct64));
+    res = m_circleBuffer->Consume(returnHeader, returnData, sizeof(TestStruct64));
     ASSERT_TRUE(res);
     ASSERT_EQ(4, returnData->f1);
     ASSERT_EQ(64, returnHeader->packageSize);
