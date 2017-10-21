@@ -1,6 +1,6 @@
 yazol - Yet Another Zero Overhead Logger
 ==
-A personal hobby-project where I explore the difficulty of writing a logger. Some goals are fast, simple to use, more to come. 
+Contains mostly older written by me end of 2015 which I intend to base my new ideas on, i've been looking into the code and have a feeling that I might need to rewrite everything. A lot has changed in experience the last years :). A personal hobby-project where I explore the difficulty of writing a logger. Some goals are fast, simple to use, more to come. 
 
 Build
 --
