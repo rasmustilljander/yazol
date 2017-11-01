@@ -21,8 +21,8 @@ find_package(Gtest REQUIRED)
 include_directories(${REPOSITORY_ROOT})
 
 # Set compiler option
-set(CMAKE_CXX_FLAGS "-g -Wall")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++14")
+set(CMAKE_CXX_FLAGS "-Wall")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1z")
 
 # Set test module naming prefix
 set(TEST_SUFFIX _test)
