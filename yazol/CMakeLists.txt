@@ -8,8 +8,10 @@ project(${MODULE_NAME})
 file(GLOB_RECURSE HEADERS Headers/ *.hpp)
 file(GLOB_RECURSE SOURCES Source/ *.cpp)
 
-create_source_group("Header Files" "${CMAKE_CURRENT_SOURCE_DIR}/hpp" ${HEADERS})
-create_source_group("Source Files" "${CMAKE_CURRENT_SOURCE_DIR}/cpp" ${SOURCES})
+if(WIN32)
+	create_source_group("Header Files" "${CMAKE_CURRENT_SOURCE_DIR}/hpp" ${HEADERS})
+	create_source_group("Source Files" "${CMAKE_CURRENT_SOURCE_DIR}/cpp" ${SOURCES})
+endif(WIN32)
 
 set(INCLUDE_DIRECTORIES ${CMAKE_CURRENT_SOURCE_DIR}/hpp/)
 set(LIBRARIES )
