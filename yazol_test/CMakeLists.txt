@@ -1,6 +1,5 @@
 cmake_minimum_required(VERSION 3.7)
 
-# Set names
 set(NAME_OF_TEST_MODULE yazol)
 set(MODULE_NAME ${NAME_OF_TEST_MODULE}${TEST_SUFFIX})
 project(${MODULE_NAME})
